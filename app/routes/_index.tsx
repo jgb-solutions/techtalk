@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
-import { APP_NAME } from "~/utils/constants.server"
 import * as api from "~/services/requests.server"
+import { APP_NAME } from "~/utils/constants"
 import { clx } from "~/utils/helpers"
 
 
