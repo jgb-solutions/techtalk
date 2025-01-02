@@ -3,6 +3,7 @@ import { pickFields, getModelUrl } from "~/utils/helpers.server"
 
 import type * as PT from '../types/pocketbase-types'
 import { pb } from './pocketbase.server'
+import getPhotonUrl from "~/utils/photon"
 
 export async function fetchSiteMap() {
   return Promise.all([
@@ -31,7 +32,7 @@ export async function fetchEpisodes() {
   const response = await pb.collection('episodes').getFullList<
     PT.EpisodesResponse & {
       expand: {
-        speakers: PT.SpeakersResponse
+        speakers: PT.SpeakersResponse<{ T: object }>[]
       }
     }
   >({
@@ -39,9 +40,23 @@ export async function fetchEpisodes() {
     sort: '-date'
   })
 
-  return response.map(({ image, expand, ...episode }) => ({
-    ...episode,
-    imageUrl: getModelUrl({ model: episode, field: image }),
-    speakers: expand.speakers
-  }))
+  return response.map(({ image, expand, ...episode }) => {
+    const episodeImageUrl = getModelUrl({ model: episode, field: image })
+    const episodeCdnImageUrl = getPhotonUrl({ src: episodeImageUrl, quality: 100, width: 500 })
+
+    return {
+      ...episode,
+      imageUrl: episodeImageUrl,
+      cdnImageUrl: episodeCdnImageUrl,
+      speakers: expand.speakers.map(({ image, ...speaker }) => {
+        const speakerImageUrl = getModelUrl({ model: speaker, field: image })
+        const speakerCdnImageUrl = getPhotonUrl({ src: speakerImageUrl, quality: 100, width: 250 })
+        return {
+          ...speaker,
+          imageUrl: speakerImageUrl,
+          cdnImageUrl: speakerCdnImageUrl
+        }
+      })
+    }
+  })
 }

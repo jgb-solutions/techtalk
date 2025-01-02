@@ -13,7 +13,7 @@ export const links: LinksFunction = () => []
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" data-theme="cupcake">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -24,8 +24,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <link rel="manifest" href="/assets/images/favicon/site.webmanifest" />
         <Links />
       </head>
-      <body className="font-sans antialiased h-full bg-center" style={{ backgroundImage: "url('/assets/images/tech-talk-bg.jpg')" }}>
-        {children}
+      <body className="font-sans antialiased min-h-full bg-center" style={{ backgroundImage: "url('/assets/images/tech-talk-bg.jpg')" }}>
+        <div className="max-w-3xl mx-auto p-4">
+          {children}
+        </div>
         <ScrollRestoration />
         <Scripts />
       </body>

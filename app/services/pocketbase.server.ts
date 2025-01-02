@@ -1,5 +1,5 @@
 import PocketBase from 'pocketbase'
-import { env } from '~/utils/constants'
+import { env } from '~/utils/constants.server'
 
 export const pb = new PocketBase(env.API_URL)
 
