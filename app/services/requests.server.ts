@@ -36,11 +36,11 @@ export async function fetchEpisodes() {
       }
     }
   >({
-    expand: 'speakers',
+    // expand: 'speakers',
     sort: '-date'
   })
 
-  return response.map(({ image, expand, ...episode }) => {
+  return response.map(({ image, ...episode }) => {
     const episodeImageUrl = getModelUrl({ model: episode, field: image })
     const episodeCdnImageUrl = getPhotonUrl({ src: episodeImageUrl, quality: 100, width: 500 })
 
@@ -48,15 +48,41 @@ export async function fetchEpisodes() {
       ...episode,
       imageUrl: episodeImageUrl,
       cdnImageUrl: episodeCdnImageUrl,
-      // speakers: expand.speakers.filter(s => s.image).map(({ image, ...speaker }) => {
-      //   const speakerImageUrl = getModelUrl({ model: speaker, field: image })
-      //   const speakerCdnImageUrl = getPhotonUrl({ src: speakerImageUrl, quality: 100, width: 250 })
-      //   return {
-      //     ...speaker,
-      //     imageUrl: speakerImageUrl,
-      //     cdnImageUrl: speakerCdnImageUrl
-      //   }
-      // })
+      speakers: []
     }
   })
+}
+
+export async function fetchEpisode(episodeId: string) {
+  const response = await pb.collection('episodes').getOne<
+    PT.EpisodesResponse & {
+      expand: {
+        speakers: PT.SpeakersResponse<{ T: object }>[]
+      }
+    }
+  >(episodeId, {
+    expand: 'speakers',
+    sort: '-date'
+  })
+
+  const { image, expand, ...episode } = response
+
+  const episodeImageUrl = getModelUrl({ model: episode, field: image })
+  const episodeCdnImageUrl = getPhotonUrl({ src: episodeImageUrl, quality: 100, width: 500 })
+
+  return {
+    ...episode,
+    imageUrl: episodeImageUrl,
+    cdnImageUrl: episodeCdnImageUrl,
+    speakers: expand.speakers.filter(s => s.image).map(({ image, ...speaker }) => {
+      const speakerImageUrl = getModelUrl({ model: speaker, field: image })
+      const speakerCdnImageUrl = getPhotonUrl({ src: speakerImageUrl, quality: 100, width: 250 })
+      return {
+        ...speaker,
+        imageUrl: speakerImageUrl,
+        cdnImageUrl: speakerCdnImageUrl
+      }
+    })
+  }
+
 }
