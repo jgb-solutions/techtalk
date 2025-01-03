@@ -33,12 +33,12 @@ export default function Index() {
             "mb-4": index !== episodes.length - 1,
           })}>
             <a
-              className="flex flex-row items-center"
+              className="sm:flex flex-row items-center"
               href={`/epizod/${episode.id}`}
             >
-              <img src={episode.cdnImageUrl} alt={episode.title} className="mr-2 w-72" />
+              <img src={episode.cdnImageUrl} alt={episode.title} className="sm:mr-2 sm:w-72" />
               <div className="flex-1 flex-col">
-                <h3 className="text-2xl">
+                <h3 className="text-2xl p-4 sm:p-0">
                   <span className="font-thin">{formatTitle(episode.title)[0]}:</span><br />
                   <span className="font-medium">{formatTitle(episode.title)[1]}</span>
                 </h3>
