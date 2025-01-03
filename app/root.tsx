@@ -8,6 +8,8 @@ import {
 import type { LinksFunction } from "@remix-run/node"
 
 import "./tailwind.css"
+import Header from "./components/Header"
+import Footer from "./components/Footer"
 
 export const links: LinksFunction = () => []
 
@@ -24,10 +26,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <link rel="manifest" href="/assets/images/favicon/site.webmanifest" />
         <Links />
       </head>
-      <body className="font-sans antialiased min-h-full bg-center bg-cover" style={{ backgroundImage: "url('/assets/images/Grunged-paper-Background-1.jpg')" }}>
-        <div className="max-w-3xl mx-auto p-4">
+      <body className="font-sans antialiased min-h-full bg-center bg-cover"
+      // style={{ backgroundImage: "url('/assets/images/Grunged-paper-Background-1.jpg')" }}
+      >
+        <Header />
+        <main className="">
           {children}
-        </div>
+        </main>
+        <Footer />
+
         <ScrollRestoration />
         <Scripts />
       </body>

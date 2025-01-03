@@ -16,6 +16,12 @@ export default {
           "Noto Color Emoji",
         ],
       },
+      colors: {
+        tt: {
+          yellow: '#ffa30a',
+          blue: '#0066bf'
+        }
+      }
     },
   },
   plugins: [require('daisyui')],

@@ -48,15 +48,15 @@ export async function fetchEpisodes() {
       ...episode,
       imageUrl: episodeImageUrl,
       cdnImageUrl: episodeCdnImageUrl,
-      speakers: expand.speakers.map(({ image, ...speaker }) => {
-        const speakerImageUrl = getModelUrl({ model: speaker, field: image })
-        const speakerCdnImageUrl = getPhotonUrl({ src: speakerImageUrl, quality: 100, width: 250 })
-        return {
-          ...speaker,
-          imageUrl: speakerImageUrl,
-          cdnImageUrl: speakerCdnImageUrl
-        }
-      })
+      // speakers: expand.speakers.filter(s => s.image).map(({ image, ...speaker }) => {
+      //   const speakerImageUrl = getModelUrl({ model: speaker, field: image })
+      //   const speakerCdnImageUrl = getPhotonUrl({ src: speakerImageUrl, quality: 100, width: 250 })
+      //   return {
+      //     ...speaker,
+      //     imageUrl: speakerImageUrl,
+      //     cdnImageUrl: speakerCdnImageUrl
+      //   }
+      // })
     }
   })
 }
