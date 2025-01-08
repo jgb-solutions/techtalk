@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
-import { useLoaderData } from "@remix-run/react"
+import { Link, useLoaderData } from "@remix-run/react"
 import Container from "~/components/Container"
 import Title from "~/components/Title"
 import * as api from "~/services/requests.server"
@@ -44,10 +44,10 @@ export default function Episode() {
               <h4 className="text-lg mr-3">Panelis:</h4>
               <div className="flex flex-row items-center">
                 {episode.speakers.map((speaker) => (
-                  <a key={speaker.id} href={`/panelis/${speaker.id}`} className="text-center mr-4" title={speaker.name}>
+                  <Link key={speaker.id} to={`/panelis/${speaker.id}`} className="text-center mr-4" title={speaker.name}>
                     <img src={speaker.cdnImageUrl} alt={speaker.name} className="max-w-full w-12 h-12 rounded-full" />
                     <span className="text-sm">{getSpeakerName(speaker)}</span>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
